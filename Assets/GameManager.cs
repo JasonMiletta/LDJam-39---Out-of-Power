@@ -33,8 +33,10 @@ public class GameManager : MonoBehaviour {
         chargeLoop();
     }
 
-    public static void resetGame()
+    public void resetGame()
     {
+        Time.timeScale = 1.0f;
+        currentChargeAmount = 100.0f;
         SceneManager.LoadScene(0);
     }
 
