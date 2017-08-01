@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
     public string currentTime;
+    public float currentChargeAmount = 100.0f;
+    public Slider chargeSlider;
+    public GameObject gameOverScreen;
 
     private float currentTimeValue;
     private Text timeUIText;
@@ -25,6 +29,36 @@ public class GameManager : MonoBehaviour {
         {
             timeUIText.text = FormatTime(currentTimeValue);
         }
+
+        chargeLoop();
+    }
+
+    public static void resetGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    private void chargeLoop()
+    {
+        if (currentChargeAmount <= 0)
+        {
+            //LOSE!
+            if(gameOverScreen != null)
+            {
+                gameOverScreen.SetActive(true);
+            }
+            Time.timeScale = 0.0f;
+        }
+        else if (Input.GetButton("Fire1"))
+        {
+            currentChargeAmount -= Time.deltaTime * 50;
+        }
+        else
+        {
+            currentChargeAmount -= Time.deltaTime * 10;
+        }
+
+        chargeSlider.value = currentChargeAmount;
     }
 
     private string FormatTime(float time)

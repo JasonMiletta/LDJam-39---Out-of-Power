@@ -10,12 +10,16 @@ public class PlayerMovement : MonoBehaviour {
     public float dashStoppingSpeed = 0.1f;
     public bool isDashing = false;
 
+    public float currentChargeAmount = 100.0f;
+
+    private GameManager gameManager;
     private bool isMovementLocked = false;
     private float currentDashTime;
     private Vector3 stashedDashVector;
 
 	// Use this for initialization
 	void Start () {
+        gameManager = GetComponentInParent<GameManager>();
         currentDashTime = maxDashTime;
 	}
 	
@@ -24,7 +28,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         Debug.DrawRay(transform.position, transform.forward, Color.red);
 
-        chargeLoop();
+        dashLoop();
         lookLoop();
         if (!isMovementLocked)
         {
@@ -48,7 +52,7 @@ public class PlayerMovement : MonoBehaviour {
         transform.Translate(x, 0, z, Space.World);
     }
 
-    private void chargeLoop()
+    private void dashLoop()
     {
         //Check if we're still dashing
         if (currentDashTime < maxDashTime)
@@ -81,6 +85,7 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
     }
+
 
     private void startChargeParticles()
     {

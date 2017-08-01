@@ -7,12 +7,18 @@ public class Enemy : MonoBehaviour {
     public float movementSpeed = 1.0f;
 
     private GameObject target;
+    private GameManager gameManager;
     private bool isAlive = true;
 
 	// Use this for initialization
 	void Start () {
         target = GameObject.Find("Player");
-	}
+        var playerContainer = FindObjectOfType<GameManager>();
+        if(playerContainer != null)
+        {
+            gameManager = playerContainer;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,6 +37,7 @@ public class Enemy : MonoBehaviour {
     //Oh god this is gruesome huh?
     private void killSelf(Vector3 deathForce)
     {
+        givePower();
         isAlive = false;
         var rigidbody = GetComponent<Rigidbody>();
         rigidbody.freezeRotation = false;
@@ -54,5 +61,10 @@ public class Enemy : MonoBehaviour {
                 //Hurt player?
             }
         }
+    }
+
+    private void givePower()
+    {
+        gameManager.currentChargeAmount += 10.0f;
     }
 }
