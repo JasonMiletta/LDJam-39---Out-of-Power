@@ -12,14 +12,12 @@ public class PlayerMovement : MonoBehaviour {
 
     public float currentChargeAmount = 100.0f;
 
-    private GameManager gameManager;
     private bool isMovementLocked = false;
     private float currentDashTime;
     private Vector3 stashedDashVector;
 
 	// Use this for initialization
 	void Start () {
-        gameManager = GetComponentInParent<GameManager>();
         currentDashTime = maxDashTime;
 	}
 	
@@ -57,7 +55,6 @@ public class PlayerMovement : MonoBehaviour {
         //Check if we're still dashing
         if (currentDashTime < maxDashTime)
         {
-            Debug.Log("Dashing");
             isDashing = true;
             currentDashTime += Time.deltaTime;
             transform.Translate(stashedDashVector * Time.deltaTime * dashSpeed, Space.World);

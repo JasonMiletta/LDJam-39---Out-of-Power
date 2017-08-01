@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
     {
         Time.timeScale = 1.0f;
         currentChargeAmount = 100.0f;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void chargeLoop()
