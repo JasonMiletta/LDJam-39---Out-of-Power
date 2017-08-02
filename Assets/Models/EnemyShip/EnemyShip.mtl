@@ -1,0 +1,27 @@
+# Made using Asset Forge (www.assetforge.io) version 1.2.1 
+
+newmtl blueSteel (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0 0 0 
+Ks 0.330000 0.330000 0.330000 
+
+newmtl _defaultMat (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.2232937 0 0.7130148 
+Ks 0.330000 0.330000 0.330000 
+
+newmtl engine (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.2146449 0 0.6053565 
+Ks 0.330000 0.330000 0.330000 
+
+newmtl black (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0 0 0 
+Ks 0.330000 0.330000 0.330000 
+
+newmtl glass (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.4484152 0 0.9365436 
+Ks 0.330000 0.330000 0.330000 
+
