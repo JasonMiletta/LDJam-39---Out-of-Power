@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour {
         if (isAlive)
         {
             moveToTarget();
+            lookAtTarget();
         }
 	}
 
@@ -32,6 +33,12 @@ public class Enemy : MonoBehaviour {
     {
         var movementVector = target.transform.position - transform.position;
         transform.Translate(movementVector * Time.deltaTime * movementSpeed, Space.World);
+    }
+
+    private void lookAtTarget()
+    {
+        transform.LookAt(target.transform.position, new Vector3(0, 0, -1));
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
     }
 
     //Oh god this is gruesome huh?
