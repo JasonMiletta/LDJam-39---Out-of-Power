@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour {
     public float shootingSpeed = 1.0f;
     public bool canShoot = true;
     public GameObject projectile;
+    public Transform gunBarrel;
 
     private GameObject target;
     private GameManager gameManager;
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour {
     private void moveToTarget()
     {
         var movementVector = target.transform.position - transform.position;
+        movementVector.Normalize();
         transform.Translate(movementVector * Time.deltaTime * movementSpeed, Space.World);
     }
 
@@ -55,12 +57,14 @@ public class Enemy : MonoBehaviour {
         {
             shootingCooldown += Time.deltaTime;
         }
-        else if (projectile != null)
+        else if (projectile != null && gunBarrel != null)
         {
-            GameObject newProjectile = Instantiate(projectile, transform.position, transform.rotation);
+            GameObject newProjectile = Instantiate(projectile, gunBarrel.position, gunBarrel.rotation);
             Vector3 shootVector = target.transform.position - transform.position;
+            shootVector.Normalize();
             shootVector.y = 0;
-            newProjectile.GetComponent<Rigidbody>().AddForce( shootVector * 3.0f, ForceMode.Impulse);
+            newProjectile.GetComponent<Rigidbody>().AddForce( shootVector * 20.0f, ForceMode.Impulse);
+            Destroy(newProjectile, 10.0f);
             shootingCooldown = 0.0f;
         }
     }
