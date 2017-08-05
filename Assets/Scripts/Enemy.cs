@@ -5,10 +5,14 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     public float movementSpeed = 1.0f;
+    public float shootingSpeed = 1.0f;
+    public bool canShoot = true;
+    public GameObject projectile;
 
     private GameObject target;
     private GameManager gameManager;
     private bool isAlive = true;
+    private float shootingCooldown = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +30,10 @@ public class Enemy : MonoBehaviour {
         {
             moveToTarget();
             lookAtTarget();
+            if (canShoot)
+            {
+                shootAtTarget();
+            }
         }
 	}
 
@@ -39,6 +47,22 @@ public class Enemy : MonoBehaviour {
     {
         transform.LookAt(target.transform.position, new Vector3(0, 0, -1));
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+    }
+
+    private void shootAtTarget()
+    {
+        if (shootingCooldown < shootingSpeed)
+        {
+            shootingCooldown += Time.deltaTime;
+        }
+        else if (projectile != null)
+        {
+            GameObject newProjectile = Instantiate(projectile, transform.position, transform.rotation);
+            Vector3 shootVector = target.transform.position - transform.position;
+            shootVector.y = 0;
+            newProjectile.GetComponent<Rigidbody>().AddForce( shootVector * 3.0f, ForceMode.Impulse);
+            shootingCooldown = 0.0f;
+        }
     }
 
     //Oh god this is gruesome huh?
