@@ -75,8 +75,9 @@ public class Enemy : MonoBehaviour {
         givePower();
         isAlive = false;
         var rigidbody = GetComponent<Rigidbody>();
-        rigidbody.freezeRotation = false;
+        rigidbody.constraints = RigidbodyConstraints.None;
         rigidbody.AddForce(deathForce * 20.0f, ForceMode.Impulse);
+        rigidbody.AddForce(Vector3.up * 5.0f, ForceMode.Impulse);
         Destroy(this.gameObject, 5.0f);
     }
 
