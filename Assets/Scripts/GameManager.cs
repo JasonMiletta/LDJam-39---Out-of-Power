@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public float currentChargeAmount = 100.0f;
     public Slider chargeSlider;
     public GameObject gameOverScreen;
+    public GameObject pauseScreen;
 
     private float currentTimeValue;
     private Text timeUIText;
@@ -30,15 +31,27 @@ public class GameManager : MonoBehaviour {
             timeUIText.text = FormatTime(currentTimeValue);
         }
 
+        pauseCheck();
         chargeLoop();
     }
 
+    #region Button Functions
+
     public void resetGame()
     {
-        Time.timeScale = 1.0f;
+        resumeGame();
         currentChargeAmount = 100.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void quitGame()
+    {
+
+    }
+
+    #endregion
+
+    #region Gameplay Loops
 
     private void chargeLoop()
     {
@@ -49,7 +62,7 @@ public class GameManager : MonoBehaviour {
             {
                 gameOverScreen.SetActive(true);
             }
-            Time.timeScale = 0.0f;
+            pauseGame();
         }
         else if (Input.GetButton("Fire1"))
         {
@@ -63,6 +76,22 @@ public class GameManager : MonoBehaviour {
         chargeSlider.value = currentChargeAmount;
     }
 
+    private void pauseCheck()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (!pauseScreen.activeSelf)
+            {
+                pauseGame();
+            } else
+            {
+                resumeGame();
+            }
+        }
+    }
+
+    #endregion
+
     private string FormatTime(float time)
     {
         int intTime = (int)time;
@@ -72,5 +101,18 @@ public class GameManager : MonoBehaviour {
         fraction = (fraction % 1000);
         string timeText = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, fraction);
         return timeText;
+    }
+
+
+    private void pauseGame()
+    {
+        pauseScreen.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+
+    private void resumeGame()
+    {
+        pauseScreen.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 }
