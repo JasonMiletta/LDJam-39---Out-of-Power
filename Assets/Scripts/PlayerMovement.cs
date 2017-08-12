@@ -26,7 +26,10 @@ public class PlayerMovement : MonoBehaviour {
     {
         Debug.DrawRay(transform.position, transform.forward, Color.red);
 
-        dashLoop();
+        if (Time.timeScale != 0.0f)
+        {
+            dashLoop();
+        }
         lookLoop();
         if (!isMovementLocked)
         {
