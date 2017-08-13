@@ -19,15 +19,26 @@ public class Projectile : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         PlayerMovement player = other.gameObject.GetComponent<PlayerMovement>();
-        if(player != null)
+        ParticleSystem particles = other.GetComponent<ParticleSystem>();
+        if (particles != null)
+        {
+            Debug.Log("Deflected!");
+            destroySelf();
+        }
+        else if (player != null)
         {
             Debug.Log("Hit!");
-            if(particleBurst != null)
-            {
-                var newParticleBurst = Instantiate(particleBurst, transform.position, transform.rotation);
-                Destroy(newParticleBurst, 5.0f);
-            }
-            Destroy(this.gameObject);
+            destroySelf();
         }
+    }
+
+    private void destroySelf()
+    {
+        if (particleBurst != null)
+        {
+            var newParticleBurst = Instantiate(particleBurst, transform.position, transform.rotation);
+            Destroy(newParticleBurst, 5.0f);
+        }
+        Destroy(this.gameObject);
     }
 }

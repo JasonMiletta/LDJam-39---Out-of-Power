@@ -90,9 +90,14 @@ public class PlayerMovement : MonoBehaviour {
     private void startChargeParticles()
     {
         var chargeParticle = GetComponentInChildren<ParticleSystem>();
-        if (chargeParticle != null)
+        if (chargeParticle != null )
         {
             chargeParticle.Play();
+        }
+        SphereCollider particleCollider = GetComponentInChildren<SphereCollider>();
+        if(particleCollider != null)
+        {
+            particleCollider.enabled = true;
         }
     }
 
@@ -102,6 +107,11 @@ public class PlayerMovement : MonoBehaviour {
         if (chargeParticle != null)
         {
             chargeParticle.Stop();
+        }
+        SphereCollider particleCollider = GetComponentInChildren<SphereCollider>();
+        if (particleCollider != null)
+        {
+            particleCollider.enabled = false;
         }
     }
 
