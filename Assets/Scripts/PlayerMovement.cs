@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public float currentChargeAmount = 100.0f;
 
+    private GameManager gameManager;
     private bool isMovementLocked = false;
     private float currentDashTime;
     private Vector3 stashedDashVector;
@@ -19,7 +20,8 @@ public class PlayerMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         currentDashTime = maxDashTime;
-	}
+        gameManager = FindObjectOfType<GameManager>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -35,6 +37,16 @@ public class PlayerMovement : MonoBehaviour {
         {
             movementLoop();
         }
+    }
+
+    public void takeDamage(float damageValue)
+    {
+        gameManager.currentChargeAmount -= damageValue;
+    }
+
+    public void takeShieldPower(float chargeValue)
+    {
+        gameManager.currentChargeAmount += chargeValue;
     }
 
     private void lookLoop()

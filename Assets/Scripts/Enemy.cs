@@ -99,6 +99,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    //TODO: Repurpose this into a nonhacky way, likely with events
     private void givePower()
     {
         gameManager.currentChargeAmount += 10.0f;

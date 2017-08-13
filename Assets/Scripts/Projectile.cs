@@ -23,11 +23,14 @@ public class Projectile : MonoBehaviour {
         if (particles != null)
         {
             Debug.Log("Deflected!");
+            player = other.gameObject.GetComponentInParent<PlayerMovement>();
+            player.takeShieldPower(20.0f);
             destroySelf();
         }
         else if (player != null)
         {
             Debug.Log("Hit!");
+            player.takeDamage(10.0f);
             destroySelf();
         }
     }

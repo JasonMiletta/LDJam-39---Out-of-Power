@@ -74,8 +74,8 @@ public class GameManager : MonoBehaviour {
             if(gameOverScreen != null)
             {
                 gameOverScreen.SetActive(true);
+                Time.timeScale = 0.0f;
             }
-            pauseGame();
         }
         else if (Input.GetButton("Fire1"))
         {
