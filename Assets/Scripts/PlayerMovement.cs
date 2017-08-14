@@ -10,6 +10,11 @@ public class PlayerMovement : MonoBehaviour {
     public float dashStoppingSpeed = 0.1f;
     public bool isDashing = false;
 
+    public AudioSource dashAudio;
+    public AudioSource chargeAudio;
+    public AudioSource absorbAudio;
+    public AudioSource hitAudio;
+
     public float currentChargeAmount = 100.0f;
 
     private GameManager gameManager;
@@ -42,11 +47,13 @@ public class PlayerMovement : MonoBehaviour {
     public void takeDamage(float damageValue)
     {
         gameManager.updateEnergyValue(-damageValue);
+        hitAudio.Play();
     }
 
     public void takeShieldPower(float chargeValue)
     {
         gameManager.updateEnergyValue(chargeValue);
+        absorbAudio.Play();
     }
 
     private void lookLoop()
@@ -88,6 +95,7 @@ public class PlayerMovement : MonoBehaviour {
                 isMovementLocked = true;
                 startChargeParticles();
 
+
             } 
             else if (Input.GetButtonUp("Fire1"))
             {
@@ -104,7 +112,9 @@ public class PlayerMovement : MonoBehaviour {
         var chargeParticle = GetComponentInChildren<ParticleSystem>();
         if (chargeParticle != null )
         {
+            chargeAudio.Play();
             chargeParticle.Play();
+            
         }
         SphereCollider particleCollider = GetComponentInChildren<SphereCollider>();
         if(particleCollider != null)
@@ -118,6 +128,8 @@ public class PlayerMovement : MonoBehaviour {
         var chargeParticle = GetComponentInChildren<ParticleSystem>();
         if (chargeParticle != null)
         {
+            chargeAudio.Stop();
+            dashAudio.Play();
             chargeParticle.Stop();
         }
         SphereCollider particleCollider = GetComponentInChildren<SphereCollider>();
