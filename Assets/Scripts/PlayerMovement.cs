@@ -94,8 +94,7 @@ public class PlayerMovement : MonoBehaviour {
             {
                 isMovementLocked = true;
                 startChargeParticles();
-
-
+                
             } 
             else if (Input.GetButtonUp("Fire1"))
             {
