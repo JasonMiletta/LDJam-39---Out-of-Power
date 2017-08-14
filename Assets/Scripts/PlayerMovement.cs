@@ -41,12 +41,12 @@ public class PlayerMovement : MonoBehaviour {
 
     public void takeDamage(float damageValue)
     {
-        gameManager.currentChargeAmount -= damageValue;
+        gameManager.updateEnergyValue(-damageValue);
     }
 
     public void takeShieldPower(float chargeValue)
     {
-        gameManager.currentChargeAmount += chargeValue;
+        gameManager.updateEnergyValue(chargeValue);
     }
 
     private void lookLoop()

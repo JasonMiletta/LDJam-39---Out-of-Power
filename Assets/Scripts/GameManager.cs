@@ -5,9 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-
-    public string currentTime;
+    
     public float currentChargeAmount = 100.0f;
+    public Text timeUIText;
+    public Text energyValueUIText;
     public Slider chargeSlider;
     public GameObject HUD;
     public GameObject mainMenuScreen;
@@ -15,20 +16,17 @@ public class GameManager : MonoBehaviour {
     public GameObject pauseScreen;
 
     private float currentTimeValue;
-    private Text timeUIText;
 
 	// Use this for initialization
 	void Start () {
         currentTimeValue = 0;
-        timeUIText = HUD.GetComponentInChildren<Text>();
         Time.timeScale = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         currentTimeValue += Time.deltaTime;
-
-        currentTime = string.Format("{00:00:00}", currentTimeValue);
+        
         if (timeUIText != null)
         {
             timeUIText.text = FormatTime(currentTimeValue);
@@ -71,7 +69,8 @@ public class GameManager : MonoBehaviour {
         if (currentChargeAmount <= 0)
         {
             //LOSE!
-            if(gameOverScreen != null)
+            currentChargeAmount = 0;
+            if (gameOverScreen != null)
             {
                 gameOverScreen.SetActive(true);
                 Time.timeScale = 0.0f;
@@ -79,14 +78,15 @@ public class GameManager : MonoBehaviour {
         }
         else if (Input.GetButton("Fire1"))
         {
-            currentChargeAmount -= Time.deltaTime * 50;
+            updateEnergyValue(-(Time.deltaTime * 50));
         }
         else
         {
-            currentChargeAmount -= Time.deltaTime * 10;
+            updateEnergyValue(-(Time.deltaTime * 10));
         }
 
         chargeSlider.value = currentChargeAmount;
+        energyValueUIText.text = currentChargeAmount.ToString("0");
     }
 
     private void pauseCheck()
@@ -104,6 +104,18 @@ public class GameManager : MonoBehaviour {
     }
 
     #endregion
+
+    public void updateEnergyValue(float value)
+    {
+        currentChargeAmount += value;
+        if(currentChargeAmount > 100)
+        {
+            currentChargeAmount = 100;
+        } else if(currentChargeAmount < 0)
+        {
+            currentChargeAmount = 0;
+        }
+    }
 
     private string FormatTime(float time)
     {
