@@ -78,6 +78,11 @@ public class Enemy : MonoBehaviour {
         rigidbody.constraints = RigidbodyConstraints.None;
         rigidbody.AddForce(deathForce * 20.0f, ForceMode.Impulse);
         rigidbody.AddForce(Vector3.up * 5.0f, ForceMode.Impulse);
+        AudioSource sound = GetComponent<AudioSource>();
+        if(sound != null)
+        {
+            sound.Play();
+        }
         Destroy(this.gameObject, 5.0f);
     }
 
