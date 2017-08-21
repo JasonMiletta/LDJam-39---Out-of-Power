@@ -15,17 +15,18 @@ public class PlayerMovement : MonoBehaviour {
     public AudioSource absorbAudio;
     public AudioSource hitAudio;
 
-    public float currentChargeAmount = 100.0f;
-
     private GameManager gameManager;
+    private Rigidbody rb;
     private bool isMovementLocked = false;
     private float currentDashTime;
     private Vector3 stashedDashVector;
+
 
 	// Use this for initialization
 	void Start () {
         currentDashTime = maxDashTime;
         gameManager = FindObjectOfType<GameManager>();
+        rb = GetComponentInChildren<Rigidbody>();
     }
 	
 	// Update is called once per frame
@@ -33,11 +34,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         Debug.DrawRay(transform.position, transform.forward, Color.red);
 
+        lookLoop();
+    }
+
+    private void LateUpdate()
+    {
         if (Time.timeScale != 0.0f)
         {
             dashLoop();
         }
-        lookLoop();
         if (!isMovementLocked)
         {
             movementLoop();
@@ -60,16 +65,20 @@ public class PlayerMovement : MonoBehaviour {
     {
         var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Debug.DrawRay(Camera.main.transform.position, ray, Color.yellow);
-        
         transform.LookAt(ray, new Vector3(0, 0, -1));
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
     }
 
     private void movementLoop()
     {
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * movementSpeed;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * movementSpeed;
-        transform.Translate(x, 0, z, Space.World);
+        //var x = Input.GetAxis("Horizontal") * Time.deltaTime * movementSpeed;
+        //var z = Input.GetAxis("Vertical") * Time.deltaTime * movementSpeed;
+        //transform.Translate(x, 0, z, Space.World);
+
+        var x = Input.GetAxis("Horizontal") * movementSpeed;
+        var z = Input.GetAxis("Vertical") * movementSpeed;
+        Vector3 newVector = transform.position + new Vector3(x, 0, z);
+        rb.MovePosition(newVector);
     }
 
     private void dashLoop()
@@ -138,4 +147,11 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag.ToString().Equals("Killbox"))
+        {
+            gameManager.updateEnergyValue(-100);
+        }
+    }
 }
