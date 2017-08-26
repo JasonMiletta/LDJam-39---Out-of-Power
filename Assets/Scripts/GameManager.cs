@@ -16,11 +16,13 @@ public class GameManager : MonoBehaviour {
     public GameObject pauseScreen;
 
     private float currentTimeValue;
+    private PlayerMovement player;
 
 	// Use this for initialization
 	void Start () {
         currentTimeValue = 0;
         Time.timeScale = 0.0f;
+        player = GetComponentInChildren<PlayerMovement>();
 	}
 	
 	// Update is called once per frame
@@ -74,6 +76,9 @@ public class GameManager : MonoBehaviour {
             currentChargeAmount = 0;
             if (gameOverScreen != null)
             {
+                foreach(AudioSource audio in player.GetComponentsInChildren<AudioSource>()){
+                    audio.Stop();
+                }
                 gameOverScreen.SetActive(true);
                 Time.timeScale = 0.0f;
             }
