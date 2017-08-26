@@ -78,10 +78,6 @@ public class GameManager : MonoBehaviour {
                 Time.timeScale = 0.0f;
             }
         }
-        else if (Input.GetButton("Fire1"))
-        {
-            updateEnergyValue(-(Time.deltaTime * 50));
-        }
         else
         {
             updateEnergyValue(-(Time.deltaTime * 10));

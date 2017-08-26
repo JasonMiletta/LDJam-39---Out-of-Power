@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour {
     public float dashSpeed = 2.0f;
     public float dashStoppingSpeed = 0.1f;
     public bool isDashing = false;
+    public bool isCharging = false;
 
     public AudioSource dashAudio;
     public AudioSource chargeAudio;
@@ -94,26 +95,46 @@ public class PlayerMovement : MonoBehaviour {
         else
         {
             isDashing = false;
-            if(Input.GetButton("Fire1") != true)
+            if (Input.GetButton("Fire1") != true)
             {
                 isMovementLocked = false;
+            } else
+            {
+                //Check if we were charging while the user clicked down again to queue up the charge again
+                if (!isCharging)
+                {
+                    startCharging();
+                }
+                gameManager.updateEnergyValue(-(Time.deltaTime * 50));
             }
             
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && !isCharging)
             {
-                isMovementLocked = true;
-                startChargeParticles();
-                
-            } 
-            else if (Input.GetButtonUp("Fire1"))
-            {
-                stopChargeParticles();
-                currentDashTime = 0.0f;
-                stashedDashVector = transform.forward;
+                startCharging();
             }
-        }
+
+            if (Input.GetButtonUp("Fire1"))
+            {
+                stopCharging();
+            }
+           
+        } 
     }
 
+    private void startCharging()
+    {
+        isMovementLocked = true;
+        isCharging = true;
+        startChargeParticles();
+    }
+
+    private void stopCharging()
+    {
+        isCharging = false;
+        stopChargeParticles();
+        currentDashTime = 0.0f;
+        stashedDashVector = transform.forward;
+    }
 
     private void startChargeParticles()
     {
