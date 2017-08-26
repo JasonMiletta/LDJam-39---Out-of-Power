@@ -176,7 +176,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (collision.gameObject.tag.ToString().Equals("Killbox"))
         {
-            gameManager.updateEnergyValue(-100);
+            gameManager.updateEnergyValue(-GameManager.MAXCHARGEAMOUNT);
         }
     }
 }

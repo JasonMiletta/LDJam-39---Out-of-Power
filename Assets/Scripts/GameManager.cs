@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-    
-    public float currentChargeAmount = 100.0f;
+    public const float MAXCHARGEAMOUNT = 200.0f; 
+
+    public float currentChargeAmount = MAXCHARGEAMOUNT;
     public Text timeUIText;
     public Text energyValueUIText;
     public Slider chargeSlider;
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour {
     public void resetGame()
     {
         resumeGame();
-        currentChargeAmount = 100.0f;
+        currentChargeAmount = MAXCHARGEAMOUNT;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         startGame();
     }
@@ -111,9 +112,9 @@ public class GameManager : MonoBehaviour {
     public void updateEnergyValue(float value)
     {
         currentChargeAmount += value;
-        if(currentChargeAmount > 100)
+        if(currentChargeAmount > MAXCHARGEAMOUNT)
         {
-            currentChargeAmount = 100;
+            currentChargeAmount = MAXCHARGEAMOUNT;
         } else if(currentChargeAmount < 0)
         {
             currentChargeAmount = 0;

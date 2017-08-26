@@ -4,10 +4,11 @@ public class EnemySpawner : MonoBehaviour {
 
     public float spawnRate = 5.0f;
     public float spawnRadius = 10.0f;
-    public float spawnCapacity = 2;
+    public float spawnCapacity = 3;
     public GameObject enemyPrefab;
 
     private float currentSpawnTime;
+    private float currentEnemyCount = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -25,14 +26,23 @@ public class EnemySpawner : MonoBehaviour {
             } else
             {
                 currentSpawnTime = 0;
-                spawnRate = spawnRate * 0.9f;
+                spawnRate = spawnRate * 0.95f;
 
                 for(var i = spawnCapacity; i > 0; --i)
                 {
-                    spawnEnemy();
+                    if (currentEnemyCount <= 50)
+                    {
+                        spawnEnemy();
+                        ++currentEnemyCount;
+                    }
                 }
             }
         }
+    }
+
+    public void decreaseEnemyCount()
+    {
+        --currentEnemyCount;
     }
    
     private void OnDrawGizmos()

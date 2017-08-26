@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
 
     private GameObject target;
     private GameManager gameManager;
+    private EnemySpawner enemySpawner;
     private bool isAlive = true;
     private float shootingCooldown = 0.0f;
 
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour {
         {
             gameManager = playerContainer;
         }
+        enemySpawner = FindObjectOfType<EnemySpawner>();
     }
 	
 	// Update is called once per frame
@@ -74,10 +76,13 @@ public class Enemy : MonoBehaviour {
     {
         givePower();
         isAlive = false;
+        enemySpawner.decreaseEnemyCount();
+
         var rigidbody = GetComponent<Rigidbody>();
         rigidbody.constraints = RigidbodyConstraints.None;
         rigidbody.AddForce(deathForce * 20.0f, ForceMode.Impulse);
         rigidbody.AddForce(Vector3.up * 5.0f, ForceMode.Impulse);
+
         AudioSource sound = GetComponent<AudioSource>();
         if(sound != null)
         {
