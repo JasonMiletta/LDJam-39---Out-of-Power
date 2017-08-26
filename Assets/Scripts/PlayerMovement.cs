@@ -98,6 +98,10 @@ public class PlayerMovement : MonoBehaviour {
             if (Input.GetButton("Fire1") != true)
             {
                 isMovementLocked = false;
+                if (isCharging)
+                {
+                    stopCharging();
+                }
             } else
             {
                 //Check if we were charging while the user clicked down again to queue up the charge again
